@@ -14,36 +14,37 @@ def font(size, bold=True):
             return ImageFont.truetype(p, size)
     return ImageFont.load_default()
 
-def studs(d, x, y, w, h, bay=64, t=14):
-    d.rectangle([x, y, x + w, y + t], fill=PINE, outline=WOOD)
-    d.rectangle([x, y + h - t, x + w, y + h], fill=PINE, outline=WOOD)
-    sx = x
-    while sx + t <= x + w:
-        d.rectangle([sx, y + t, sx + t, y + h - t], fill=PINE, outline=WOOD)
-        sx += bay
-    d.rectangle([x + w - t, y + t, x + w, y + h - t], fill=PINE, outline=WOOD)
+def frame(d, x, y, w, h):
+    """A framed landscape: dark moulding, lip, wide mat, bevel, art."""
+    d.rectangle([x, y, x + w, y + h], fill=(143, 71, 19), outline=(92, 45, 10))
+    d.rectangle([x + 16, y + 16, x + w - 16, y + h - 16], fill=WOOD, outline=PINE)
+    d.rectangle([x + 26, y + 26, x + w - 26, y + h - 26], fill=(251, 248, 241), outline=(230, 220, 200))
+    ax, ay, aw, ah = x + 74, y + 70, w - 148, h - 140
+    d.rectangle([ax - 4, ay - 4, ax + aw + 4, ay + ah + 4], fill=(236, 227, 210), outline=(216, 203, 178))
+    d.rectangle([ax, ay, ax + aw, ay + ah], fill=(219, 231, 238))
+    d.polygon([(ax, ay + ah), (ax + aw * .25, ay + ah * .45), (ax + aw * .42, ay + ah * .7), (ax + aw * .58, ay + ah * .35), (ax + aw * .8, ay + ah * .8), (ax + aw, ay + ah * .6), (ax + aw, ay + ah)], fill=STEEL)
+    d.ellipse([ax + aw * .72, ay + ah * .14, ax + aw * .72 + 26, ay + ah * .14 + 26], fill=(233, 180, 76))
 
 # --- og.png ---
 W, H = 1200, 630
 im = Image.new('RGB', (W, H), BG)
 d = ImageDraw.Draw(im)
-studs(d, 760, 60, 380, 510, bay=76, t=16)
+frame(d, 740, 95, 400, 440)
 d.rectangle([0, 0, 14, H], fill=WOOD)
-d.text((80, 90), 'RESIDENTIAL FRAMING CONTRACTOR', font=font(24), fill=(143, 71, 19))
+d.text((80, 90), 'CUSTOM PICTURE FRAMING', font=font(24), fill=(143, 71, 19))
 d.text((76, 140), 'Fenner', font=font(96), fill=INK)
 d.text((76, 240), 'Framework', font=font(96), fill=WOOD)
-d.text((80, 380), 'Straight. Square. Plumb.', font=font(46), fill=INK)
-d.text((80, 440), 'Every time.', font=font(46), fill=INK)
-d.text((80, 530), 'fennerframework.com  ·  Free estimates', font=font(28, bold=False), fill=STEEL)
+d.text((80, 380), 'Frame it like it matters.', font=font(46), fill=INK)
+d.text((80, 440), 'Because it does.', font=font(46), fill=INK)
+d.text((80, 530), 'fennerframework.com  ·  Free design consultations', font=font(28, bold=False), fill=STEEL)
 im.save(os.path.join(ROOT, 'og.png'), optimize=True)
 
 # --- apple-touch-icon.png ---
 S = 180
 ic = Image.new('RGB', (S, S), INK)
 d = ImageDraw.Draw(ic)
-d.rounded_rectangle([26, 26, S - 26, S - 26], radius=10, outline=WOOD, width=12)
-for x in (62, 90, 118):
-    d.rectangle([x - 6, 38, x + 6, S - 38], fill=PINE)
-d.rectangle([38, 84, S - 38, 96], fill=PINE)
+d.rectangle([28, 28, S - 28, S - 28], outline=WOOD, width=16)
+d.rectangle([60, 60, S - 60, S - 60], fill=BG)
+d.polygon([(66, 114), (84, 88), (96, 102), (108, 80), (120, 114)], fill=STEEL)
 ic.save(os.path.join(ROOT, 'icons', 'apple-touch-icon.png'), optimize=True)
 print('wrote public/og.png and public/icons/apple-touch-icon.png')

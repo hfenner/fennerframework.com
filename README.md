@@ -1,6 +1,6 @@
 # fennerframework.com
 
-Marketing site for **Fenner Framework**, a residential framing contractor. Static HTML/CSS/JS on
+Marketing site for **Fenner Framework**, a custom picture framing shop. Static HTML/CSS/JS on
 Cloudflare Pages with one Pages Function (`/api/contact`) that stores estimate requests in KV.
 
 - Live: https://fennerframework.com (pages.dev: https://fennerframework.pages.dev)
@@ -18,7 +18,7 @@ npm run smoke -- http://127.0.0.1:8788
 ## Edit the business copy
 Everything customer-facing is in `public/index.html`. Contact details (phone, email, service area,
 hours) appear in the JSON-LD block, the nav button, and the Contact section — update all of them.
-The phone number and service area are placeholders until the real ones are filled in.
+The phone number, service area, and shop hours are placeholders until the real ones are filled in.
 
 ## Leads
 ```sh
