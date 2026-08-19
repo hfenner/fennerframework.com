@@ -1,0 +1,3 @@
+# Copy to .dev.vars for local `wrangler pages dev`. Never commit .dev.vars.
+# Optional: POST each new lead as JSON to this URL (ntfy, Home Assistant webhook, Slack, ...).
+# LEAD_WEBHOOK_URL=https://example.invalid/hook

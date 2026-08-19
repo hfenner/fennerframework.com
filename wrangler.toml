@@ -1,0 +1,15 @@
+name = "fennerframework"
+compatibility_date = "2026-08-01"
+pages_build_output_dir = "./public"
+
+# Contact-form leads. Namespace ids come from `terraform output kv_namespace_ids`
+# (CI checks they match terraform/imports.tf). Create with terraform apply, not by hand.
+[[kv_namespaces]]
+binding = "LEADS"
+id = "ca0a87c3c848418384c1dce078656523"
+
+# PR preview deployments get their own namespace so test submissions never land in real leads.
+[env.preview]
+[[env.preview.kv_namespaces]]
+binding = "LEADS"
+id = "d768acd88e0f4e1bb89e60485752401d"

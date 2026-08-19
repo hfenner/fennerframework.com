@@ -1,0 +1,40 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Stamp build
+        run: printf '{"commit":"%s","built":"%s"}\n' "${{ github.sha }}" "$(date -u +%FT%TZ)" > public/version.json
+      - name: Deploy ./public + functions to Pages (project fennerframework, branch main)
+        run: npx wrangler pages deploy ./public --project-name=fennerframework --branch=main --commit-hash=${{ github.sha }} --commit-message="$(printf '%s' "$COMMIT_MSG" | head -1)"
+        env:
+          COMMIT_MSG: ${{ github.event.head_commit.message || 'manual dispatch' }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Verify production (read-only; serves this commit, contact API answers)
+        run: |
+          for BASE in https://fennerframework.pages.dev https://fennerframework.com; do
+            for i in $(seq 1 12); do
+              if scripts/smoke.sh "$BASE" "${{ github.sha }}"; then continue 2; fi
+              echo "$BASE not propagated yet, retrying in 10s ($i/12)"; sleep 10
+            done
+            if [ "$BASE" = "https://fennerframework.pages.dev" ]; then echo "::error::$BASE never served ${{ github.sha }}"; exit 1; fi
+            echo "::warning::$BASE did not pass smoke — custom-domain DNS may not be set up yet (see terraform/)"
+          done
