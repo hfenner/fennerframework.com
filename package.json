@@ -1,0 +1,15 @@
+{
+  "name": "fennerframework.com",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler pages dev ./public",
+    "deploy": "wrangler pages deploy ./public --project-name=fennerframework",
+    "check": "node scripts/check.js",
+    "smoke": "scripts/smoke.sh",
+    "leads": "node scripts/leads.js",
+    "validate:html": "html-validate public/index.html public/404.html"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}

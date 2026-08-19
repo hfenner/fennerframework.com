@@ -1,0 +1,7 @@
+.dev.vars
+.env
+lhci/
+node_modules/
+.wrangler/
+wrangler-dev.log
+public/version.json
