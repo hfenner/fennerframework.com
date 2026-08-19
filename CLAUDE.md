@@ -4,14 +4,14 @@
 - Cloudflare account ID: 75a44c24972882499891e5ad7f4c11ad
 - Zone: fennerframework.com, zone ID: b6136bdfd0c1677fd485bad88bc5478a
 - CLOUDFLARE_API_TOKEN: exported by `~/.cloudflare-token` (run `. ~/.cloudflare-token` if missing). Never commit or echo it.
-  As of 2026-08-19 the token has **no DNS permission on this zone** (error 10000) — ask Holden to re-scope it rather than debug.
+  Holden re-scoped it 2026-08-19 with DNS:Edit (works on both fenner zones); **it expires 2026-08-23** unless extended. Zone fennerframeworks.com (plural): 802f834e3cbd89f049af5744c29848a4.
 
 ## Infra as code
 - `terraform/` (Cloudflare provider v5) manages the Pages project, custom domains + CNAMEs, and both KV namespaces; state is local on the homelab (gitignored). `wrangler.toml` owns bindings/deployment config (Terraform ignores `deployment_configs`). After editing `.tf`: `. ~/.cloudflare-token; terraform -chdir=terraform plan -out=tfplan && terraform -chdir=terraform apply tfplan`. CI checks fmt/validate and that KV ids in wrangler.toml match `terraform/imports.tf`.
 
 ## Project
 - Public marketing site (no auth), Cloudflare Pages, project name: fennerframework, served from ./public
-- Custom domains: fennerframework.com (apex) + www → 301 to apex via `public/_redirects`; both need proxied CNAMEs to `fennerframework.pages.dev` (Terraform, once the token can edit DNS)
+- Custom domains: fennerframework.com (apex, canonical) + www + fennerframework**s**.com (plural, separate zone Holden registered 2026-08-19) + its www — all attached to the Pages project with proxied CNAMEs (Terraform); every non-canonical host 301s to the apex via `public/_redirects`
 - pages.dev URL: https://fennerframework.pages.dev
 - Contact form → `functions/api/contact.js` → KV `LEADS` (prod `fennerframework-leads`, preview `fennerframework-leads-preview`); optional `LEAD_WEBHOOK_URL` secret forwards each lead as JSON (`npx wrangler pages secret put LEAD_WEBHOOK_URL --project-name=fennerframework`)
 - Read leads: `. ~/.cloudflare-token; npm run leads` (`-- --preview`, `-- --json`)

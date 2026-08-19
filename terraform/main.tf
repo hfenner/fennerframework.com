@@ -25,17 +25,17 @@ resource "cloudflare_pages_project" "site" {
 }
 
 resource "cloudflare_pages_domain" "custom" {
-  for_each     = toset(var.custom_domains)
+  for_each     = var.custom_domains
   account_id   = var.account_id
   project_name = cloudflare_pages_project.site.name
-  name         = each.value
+  name         = each.key
 }
 
 # Pages does not create DNS for custom domains on the apex; we do it here.
 resource "cloudflare_dns_record" "pages" {
-  for_each = toset(var.custom_domains)
-  zone_id  = var.zone_id
-  name     = each.value
+  for_each = var.custom_domains
+  zone_id  = each.value
+  name     = each.key
   type     = "CNAME"
   content  = cloudflare_pages_project.site.subdomain
   proxied  = true
