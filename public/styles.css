@@ -41,7 +41,7 @@ svg { display: block; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-weight: 800; font-size: 1.2rem; letter-spacing: -0.01em; margin-right: auto; }
 .brand em, .brand-sm em { font-style: normal; color: var(--wood); }
 .mark { width: 30px; height: 30px; fill: none; stroke: var(--ink); stroke-width: 2; }
-.mark rect { stroke: var(--wood); }
+.mark rect:first-child { stroke: var(--wood); } .mark path { fill: var(--wood); stroke: none; }
 .nav nav { display: flex; gap: 20px; }
 .nav nav a { color: var(--ink-soft); text-decoration: none; font-weight: 600; font-size: .98rem; }
 .nav nav a:hover { color: var(--wood-dark); }
@@ -56,9 +56,14 @@ svg { display: block; }
 .trust { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 20px; color: var(--muted); font-size: .95rem; font-weight: 600; }
 .trust li::before { content: "✓"; color: var(--ok); margin-right: 6px; }
 .hero-art svg { width: 100%; height: auto; }
-.studs rect { fill: var(--pine); stroke: var(--wood-dark); stroke-width: 1.5; }
-.level rect { fill: var(--steel); }
-.level circle { fill: #c8e6a0; stroke: #1c1a17; }
+.frame-outer rect { fill: var(--wood-dark); stroke: #5c2d0a; stroke-width: 1.5; }
+.frame-bevel rect { fill: var(--wood); stroke: var(--pine); stroke-width: 1; }
+.mat rect { fill: #fbf8f1; stroke: #e6dcc8; stroke-width: 1; }
+.mat-bevel rect { fill: #ece3d2; stroke: #d8cbb2; stroke-width: 1; }
+.art rect { fill: #dbe7ee; }
+.art path { fill: var(--steel); }
+.art circle { fill: #e9b44c; }
+.wire path { fill: none; stroke: var(--muted); stroke-width: 1.5; }
 @media (max-width: 860px) { .hero { grid-template-columns: 1fr; padding-top: 48px; } .hero-art { order: -1; max-width: 420px; margin: 0 auto; } }
 
 /* Band */

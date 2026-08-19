@@ -1,4 +1,4 @@
-# fennerframework.com — Cloudflare Pages site for the Fenner Framework framing business
+# fennerframework.com — Cloudflare Pages site for Fenner Framework, Holden's custom picture framing shop
 
 ## Infra
 - Cloudflare account ID: 75a44c24972882499891e5ad7f4c11ad
@@ -15,7 +15,7 @@
 - pages.dev URL: https://fennerframework.pages.dev
 - Contact form → `functions/api/contact.js` → KV `LEADS` (prod `fennerframework-leads`, preview `fennerframework-leads-preview`); optional `LEAD_WEBHOOK_URL` secret forwards each lead as JSON (`npx wrangler pages secret put LEAD_WEBHOOK_URL --project-name=fennerframework`)
 - Read leads: `. ~/.cloudflare-token; npm run leads` (`-- --preview`, `-- --json`)
-- Business copy lives in `public/index.html`. Contact details appear in 3 places (JSON-LD, nav button, contact aside) — keep them in sync. Phone `(315) 555-0123` and service area are **placeholders** until Holden supplies real ones.
+- Business copy lives in `public/index.html`. Contact details appear in 3 places (JSON-LD, nav button, contact aside) — keep them in sync. Phone `(315) 555-0123`, service area, and shop hours are **placeholders** until Holden supplies real ones. It is a **picture framing** business (not construction) — confirmed by Holden 2026-08-19.
 - Security headers + CSP in `public/_headers` (no inline scripts/styles — JS goes in `public/app.js`, CSS in `public/styles.css`)
 - Images: `python3 scripts/make-images.py` regenerates `public/og.png` and the apple-touch-icon (Pillow)
 
