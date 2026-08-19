@@ -11,7 +11,7 @@
 
 ## Project
 - Public marketing site (no auth), Cloudflare Pages, project name: fennerframework, served from ./public
-- Custom domains: fennerframework.com (apex, canonical) + www + fennerframework**s**.com (plural, separate zone Holden registered 2026-08-19) + its www — all attached to the Pages project with proxied CNAMEs (Terraform); every non-canonical host 301s to the apex via `public/_redirects`
+- Custom domains: fennerframework.com (apex, canonical) + www + fennerframework**s**.com (plural, separate zone Holden registered 2026-08-19) + its www — all attached to the Pages project with proxied CNAMEs (Terraform); every non-canonical host 301s to the apex via `functions/_middleware.js` (Pages `_redirects` can't match hostnames — path-only)
 - pages.dev URL: https://fennerframework.pages.dev
 - Contact form → `functions/api/contact.js` → KV `LEADS` (prod `fennerframework-leads`, preview `fennerframework-leads-preview`); optional `LEAD_WEBHOOK_URL` secret forwards each lead as JSON (`npx wrangler pages secret put LEAD_WEBHOOK_URL --project-name=fennerframework`)
 - Read leads: `. ~/.cloudflare-token; npm run leads` (`-- --preview`, `-- --json`)
